@@ -1,16 +1,18 @@
 import API_BASE_URL from "../config";
 import axios from "axios";
 
-// Fetch Products
-export const fetchProducts = async () => {
+// Fetch Services
+export const fetchServices = async () => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/api/products`);
-        return response.data;
+        const response = await fetch("http://localhost:5001/api/services");
+        if (!response.ok) throw new Error("Failed to fetch services");
+        return await response.json();
     } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("❌ Error fetching services:", error);
         return [];
     }
 };
+
 
 // Fetch Events
 export const fetchEvents = async () => {

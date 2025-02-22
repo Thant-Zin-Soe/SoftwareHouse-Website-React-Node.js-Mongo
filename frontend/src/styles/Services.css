@@ -1,0 +1,85 @@
+/* ✅ Styles for Services Page */
+.services-page {
+    text-align: center;
+    padding: 40px;
+    background-color: #f8f9fa; /* Light gray background */
+}
+
+/* ✅ Services Container */
+.services-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* ✅ Service Card */
+.service-card {
+    width: 320px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Service Image */
+.service-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* ✅ Service Name */
+.service-card h3 {
+    font-size: 20px;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* ✅ Service Description */
+.service-card p {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* ✅ Request Demo Button */
+.request-demo-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 6px;
+    margin-top: 12px;
+    transition: background 0.3s ease-in-out;
+}
+
+.request-demo-btn:hover {
+    background-color: #0056b3;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+    .services-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .service-card {
+        width: 90%;
+    }
+}
