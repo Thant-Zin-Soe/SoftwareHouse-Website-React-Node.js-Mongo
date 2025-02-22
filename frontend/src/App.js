@@ -41,21 +41,55 @@
 // export default App;
 //-----------------------------------
 
+// import React from "react";
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import Home from "./pages/Home";
+// import AboutUs from "./pages/AboutUs";
+// import Services from "./pages/Services";
+// import Events from "./pages/Events";
+// import Feedback from "./pages/Feedback";
+// import CustomNavbar from "./components/Navbar"; // ✅ Ensure this import
+// import Footer from "./components/Footer";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
+// function App() {
+//   return (
+//     <Router>
+//       <CustomNavbar />
+//       <div className="content">
+//         <Routes>
+//           <Route path="/" element={<Home />} />
+//           <Route path="/about" element={<AboutUs />} />
+//           <Route path="/services" element={<Services />} />
+//           <Route path="/events" element={<Events />} />
+//           <Route path="/feedback" element={<Feedback />} />
+//         </Routes>
+//       </div>
+//       <Footer />
+//     </Router>
+//   );
+// }
+
+// export default App;
+
+//________________________________________
+
+
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
 import Services from "./pages/Services";
 import Events from "./pages/Events";
 import Feedback from "./pages/Feedback";
-import Navbar from "./components/Navbar";
+import CustomNavbar from "./components/Navbar"; // ✅ Ensure this import
 import Footer from "./components/Footer";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <Router>
-      <Navbar />
+      <CustomNavbar />
       <div className="content">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -63,7 +97,6 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/events" element={<Events />} />
           <Route path="/feedback" element={<Feedback />} />
-        
         </Routes>
       </div>
       <Footer />
@@ -72,4 +105,3 @@ function App() {
 }
 
 export default App;
-{/* <Route path="/auth/login" element={<AdminAuth />} /> ✅ Fix here */}
