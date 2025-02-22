@@ -621,24 +621,51 @@ const Auth = () => {
     };
 
     // ✅ Handle Forgot Password Request (Send Reset Link)
+    // const handleForgotPassword = async (e) => {
+    //     e.preventDefault();
+    //     setLoading(true);
+
+    //     try {
+    //         const response = await fetch(`${API_BASE_URL}/forgot-password`, {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ email }),
+    //         });
+
+    //         const data = await response.json();
+    //         setLoading(false);
+
+    //         if (response.ok) {
+    //             alert(`✅ Reset link sent to your email.\nUse token: ${data.resetToken}`);
+    //             setResetToken(data.resetToken); // Save reset token for next step
+    //             setMode("reset");
+    //         } else {
+    //             alert(data.message || "❌ Forgot password request failed.");
+    //         }
+    //     } catch (error) {
+    //         setLoading(false);
+    //         alert("❌ Server error. Please try again.");
+    //     }
+    // };
+
+
     const handleForgotPassword = async (e) => {
         e.preventDefault();
         setLoading(true);
-
+    
         try {
-            const response = await fetch(`${API_BASE_URL}/forgot-password`, {
+            const response = await fetch("http://localhost:5001/api/user/forgot-password", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
             });
-
+    
             const data = await response.json();
             setLoading(false);
-
+    
             if (response.ok) {
-                alert(`✅ Reset link sent to your email.\nUse token: ${data.resetToken}`);
-                setResetToken(data.resetToken); // Save reset token for next step
-                setMode("reset");
+                alert("✅ Please check your email. A reset link has been sent.");
+                setMode("login"); // Stay on the same page
             } else {
                 alert(data.message || "❌ Forgot password request failed.");
             }
@@ -647,7 +674,7 @@ const Auth = () => {
             alert("❌ Server error. Please try again.");
         }
     };
-
+    
     // ✅ Handle Reset Password Request
     const handleResetPassword = async (e) => {
         e.preventDefault();

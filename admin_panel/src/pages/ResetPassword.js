@@ -113,39 +113,172 @@
 
 // export default ResetPassword;
 
+//under code is workds well but there is bu token input page appearing ------------------------------>uder code is workds with bug
+// import React, { useState } from "react";
 
-import React, { useState } from "react";
+// const ResetPassword = () => {
+//     const [newPassword, setNewPassword] = useState("");
+//     const [confirmPassword, setConfirmPassword] = useState("");
+//     const [loading, setLoading] = useState(false);
+
+//     // ✅ Extract Token from URL
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const token = urlParams.get("token");
+
+//     // ✅ Handle Password Reset Submission
+//     const handleResetPassword = async (e) => {
+//         e.preventDefault();
+
+//         if (!newPassword || !confirmPassword) {
+//             alert("⚠️ Both fields are required!");
+//             return;
+//         }
+
+//         if (newPassword !== confirmPassword) {
+//             alert("⚠️ Passwords do not match!");
+//             return;
+//         }
+
+//         setLoading(true);
+
+//         try {
+//             const response = await fetch("http://localhost:5001/api/user/reset-password", {
+//                 method: "POST",
+//                 headers: { "Content-Type": "application/json" },
+//                 body: JSON.stringify({ token, newPassword }), // ✅ Send the token & new password
+//             });
+
+//             const data = await response.json();
+//             setLoading(false);
+
+//             if (response.ok) {
+//                 alert("✅ Password reset successful. Please log in.");
+//                 window.location.href = "/auth"; // Redirect to login page
+//             } else {
+//                 alert(data.message || "❌ Password reset failed.");
+//             }
+//         } catch (error) {
+//             setLoading(false);
+//             alert("❌ Server error. Please try again.");
+//         }
+//     };
+
+//     return (
+//         <div style={styles.container}>
+//             <h2 style={styles.title}>Reset Your Password</h2>
+
+//             {loading && <p style={styles.loading}>⏳ Processing...</p>}
+
+//             <form onSubmit={handleResetPassword} style={styles.form}>
+//                 <input
+//                     type="password"
+//                     placeholder="New Password"
+//                     value={newPassword}
+//                     onChange={(e) => setNewPassword(e.target.value)}
+//                     required
+//                     style={styles.input}
+//                 />
+//                 <input
+//                     type="password"
+//                     placeholder="Confirm Password"
+//                     value={confirmPassword}
+//                     onChange={(e) => setConfirmPassword(e.target.value)}
+//                     required
+//                     style={styles.input}
+//                 />
+//                 <button type="submit" style={styles.button} disabled={loading}>
+//                     {loading ? "Resetting..." : "Reset Password"}
+//                 </button>
+//             </form>
+//         </div>
+//     );
+// };
+
+// // ✅ Simple Styles
+// const styles = {
+//     container: {
+//         width: "350px",
+//         margin: "50px auto",
+//         padding: "20px",
+//         boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
+//         borderRadius: "8px",
+//         backgroundColor: "#fff",
+//         textAlign: "center",
+//     },
+//     title: {
+//         marginBottom: "20px",
+//     },
+//     form: {
+//         display: "flex",
+//         flexDirection: "column",
+//     },
+//     input: {
+//         marginBottom: "10px",
+//         padding: "10px",
+//         fontSize: "16px",
+//         border: "1px solid #ccc",
+//         borderRadius: "4px",
+//     },
+//     button: {
+//         padding: "10px",
+//         backgroundColor: "#007BFF",
+//         color: "#fff",
+//         border: "none",
+//         borderRadius: "4px",
+//         cursor: "pointer",
+//         fontSize: "16px",
+//     },
+//     loading: {
+//         color: "#007BFF",
+//         fontSize: "14px",
+//         fontWeight: "bold",
+//     }
+// };
+
+// export default ResetPassword;
+
+
+//--------------------------------------
+
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
+    const navigate = useNavigate();
+    const [token, setToken] = useState(""); // Get token from URL
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
 
-    // ✅ Extract Token from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get("token");
+    // ✅ Get token from URL when page loads
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenFromUrl = urlParams.get("token");
 
-    // ✅ Handle Password Reset Submission
+        if (!tokenFromUrl) {
+            setMessage("Invalid or expired reset link.");
+        } else {
+            setToken(tokenFromUrl); // Store token
+        }
+    }, []);
+
+    // ✅ Handle Reset Password
     const handleResetPassword = async (e) => {
         e.preventDefault();
-
-        if (!newPassword || !confirmPassword) {
-            alert("⚠️ Both fields are required!");
-            return;
-        }
+        setLoading(true);
 
         if (newPassword !== confirmPassword) {
             alert("⚠️ Passwords do not match!");
+            setLoading(false);
             return;
         }
-
-        setLoading(true);
 
         try {
             const response = await fetch("http://localhost:5001/api/user/reset-password", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ token, newPassword }), // ✅ Send the token & new password
+                body: JSON.stringify({ token, newPassword }),
             });
 
             const data = await response.json();
@@ -153,9 +286,9 @@ const ResetPassword = () => {
 
             if (response.ok) {
                 alert("✅ Password reset successful. Please log in.");
-                window.location.href = "/auth"; // Redirect to login page
+                navigate("/auth"); // Redirect to login page
             } else {
-                alert(data.message || "❌ Password reset failed.");
+                alert(data.message || "❌ Reset password failed.");
             }
         } catch (error) {
             setLoading(false);
@@ -165,36 +298,39 @@ const ResetPassword = () => {
 
     return (
         <div style={styles.container}>
-            <h2 style={styles.title}>Reset Your Password</h2>
+            <h2 style={styles.title}>Reset Password</h2>
 
-            {loading && <p style={styles.loading}>⏳ Processing...</p>}
+            {message && <p style={styles.error}>{message}</p>}
 
-            <form onSubmit={handleResetPassword} style={styles.form}>
-                <input
-                    type="password"
-                    placeholder="New Password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                    style={styles.input}
-                />
-                <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    style={styles.input}
-                />
-                <button type="submit" style={styles.button} disabled={loading}>
-                    {loading ? "Resetting..." : "Reset Password"}
-                </button>
-            </form>
+            {!message && (
+                <form onSubmit={handleResetPassword} style={styles.form}>
+                    <input
+                        type="password"
+                        placeholder="New Password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        required
+                        style={styles.input}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                        style={styles.input}
+                    />
+                    <button type="submit" style={styles.button} disabled={loading}>
+                        {loading ? "Resetting..." : "Reset Password"}
+                    </button>
+                    <p style={styles.link} onClick={() => navigate("/auth")}>Back to Login</p>
+                </form>
+            )}
         </div>
     );
 };
 
-// ✅ Simple Styles
+// ✅ Styles
 const styles = {
     container: {
         width: "350px",
@@ -205,34 +341,12 @@ const styles = {
         backgroundColor: "#fff",
         textAlign: "center",
     },
-    title: {
-        marginBottom: "20px",
-    },
-    form: {
-        display: "flex",
-        flexDirection: "column",
-    },
-    input: {
-        marginBottom: "10px",
-        padding: "10px",
-        fontSize: "16px",
-        border: "1px solid #ccc",
-        borderRadius: "4px",
-    },
-    button: {
-        padding: "10px",
-        backgroundColor: "#007BFF",
-        color: "#fff",
-        border: "none",
-        borderRadius: "4px",
-        cursor: "pointer",
-        fontSize: "16px",
-    },
-    loading: {
-        color: "#007BFF",
-        fontSize: "14px",
-        fontWeight: "bold",
-    }
+    title: { marginBottom: "20px" },
+    form: { display: "flex", flexDirection: "column" },
+    input: { marginBottom: "10px", padding: "10px", fontSize: "16px", border: "1px solid #ccc", borderRadius: "4px" },
+    button: { padding: "10px", backgroundColor: "#007BFF", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "16px" },
+    link: { marginTop: "10px", color: "#007BFF", cursor: "pointer", fontSize: "14px" },
+    error: { color: "red", fontSize: "14px" },
 };
 
 export default ResetPassword;
