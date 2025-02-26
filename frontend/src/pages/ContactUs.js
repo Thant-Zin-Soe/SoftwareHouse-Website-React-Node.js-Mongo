@@ -6,7 +6,7 @@ const ContactUs = () => {
   return (
     <div>
       
-      <h1>Customer Feedback</h1>
+      <h1>Contact Us </h1>
       <p>See what our clients say about our AI solutions.</p>
      
     </div>

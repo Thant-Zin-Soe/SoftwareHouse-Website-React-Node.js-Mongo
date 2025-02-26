@@ -68,7 +68,7 @@ const CustomNavbar = () => {
             <Nav.Link as={Link} to="/events" className="nav-link-custom">
               <FontAwesomeIcon icon={faCalendar} /> Events
             </Nav.Link>
-            <Nav.Link as={Link} to="/feedback" className="nav-link-custom">
+            <Nav.Link as={Link} to="/contactus" className="nav-link-custom">
               <FontAwesomeIcon icon={faCommentDots} /> Contact Us
             </Nav.Link>
           </Nav>
