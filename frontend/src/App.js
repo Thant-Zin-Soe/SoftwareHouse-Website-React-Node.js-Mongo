@@ -85,6 +85,7 @@ import Feedback from "./pages/ContactUs";
 import CustomNavbar from "./components/Navbar"; // ✅ Ensure this import
 import Footer from "./components/Footer";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ContactUs from "./pages/ContactUs";
 
 function App() {
   return (
@@ -96,7 +97,7 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/services" element={<Services />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/contactus" element={<ContactUs />} />
         </Routes>
       </div>
       <Footer />

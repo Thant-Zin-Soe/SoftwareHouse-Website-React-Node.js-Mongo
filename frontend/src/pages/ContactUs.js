@@ -7,7 +7,7 @@ const ContactUs = () => {
     <div>
       
       <h1>Contact Us </h1>
-      <p>See what our clients say about our AI solutions.</p>
+      <p>Contact us and let's promote your business.</p>
      
     </div>
   );
