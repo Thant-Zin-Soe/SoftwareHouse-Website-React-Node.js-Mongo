@@ -81,7 +81,7 @@ import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
 import Services from "./pages/Services";
 import Events from "./pages/Events";
-import Feedback from "./pages/Feedback";
+import Feedback from "./pages/ContactUs";
 import CustomNavbar from "./components/Navbar"; // ✅ Ensure this import
 import Footer from "./components/Footer";
 import 'bootstrap/dist/css/bootstrap.min.css';

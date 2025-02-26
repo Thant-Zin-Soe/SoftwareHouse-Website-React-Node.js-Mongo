@@ -69,7 +69,7 @@ const CustomNavbar = () => {
               <FontAwesomeIcon icon={faCalendar} /> Events
             </Nav.Link>
             <Nav.Link as={Link} to="/feedback" className="nav-link-custom">
-              <FontAwesomeIcon icon={faCommentDots} /> Feedback
+              <FontAwesomeIcon icon={faCommentDots} /> Contact Us
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

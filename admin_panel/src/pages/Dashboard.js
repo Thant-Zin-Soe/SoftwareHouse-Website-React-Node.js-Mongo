@@ -450,6 +450,7 @@ const Dashboard = () => {
                             <div key={request._id} style={styles.card}>
                                 <p><strong>Name:</strong> {request.name}</p>
                                 <p><strong>Email:</strong> {request.email}</p>
+                                <p><strong>Message:</strong> {request.message}</p>
                                 <p><strong>Status:</strong> {request.status}</p>
                                 <button style={styles.approveBtn} onClick={() => handleAction("demo-requests", request._id, "approved")}>Approve</button>
                                 <button style={styles.rejectBtn} onClick={() => handleAction("demo-requests", request._id, "rejected")}>Reject</button>

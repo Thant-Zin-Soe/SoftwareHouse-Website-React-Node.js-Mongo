@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const Feedback = () => {
+const ContactUs = () => {
   return (
     <div>
       
@@ -13,4 +13,4 @@ const Feedback = () => {
   );
 };
 
-export default Feedback;
+export default ContactUs;
