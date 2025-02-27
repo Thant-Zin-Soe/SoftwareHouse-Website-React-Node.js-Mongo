@@ -33,3 +33,55 @@
     border-radius: 10px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
 }
+
+
+/* ✅ Modal Styling */
+.demo-request-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; /* ✅ Adjusted width */
+    background: rgba(255, 255, 255, 0.95); /* ✅ Slight transparency */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ✅ Modal Title */
+.demo-request-modal h5 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* ✅ Input Fields */
+.demo-request-modal .MuiTextField-root {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* ✅ Submit Button */
+.demo-request-modal button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.demo-request-modal button:hover {
+    background-color: #0056b3;
+}
+
+/* ✅ Backdrop Overlay */
+.MuiBackdrop-root {
+    background: rgba(0, 0, 0, 0.5) !important; /* ✅ Dark background behind modal */
+}

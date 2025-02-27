@@ -3,6 +3,10 @@ import "../styles/ServiceCard.css";
 import { Button, Modal, TextField, Rating, Typography } from "@mui/material";
 
 const ServiceCard = ({ service }) => {
+    const [showDemoRequest, setShowDemoRequest] = useState(false);
+    const [userName, setUserName] = useState("");
+    const [userEmail, setUserEmail] = useState(""); // ✅ Added email input
+    const [userMessage, setUserMessage] = useState("");
     const [showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState({ userName: "", rating: 5, comment: "" });
@@ -19,31 +23,59 @@ const ServiceCard = ({ service }) => {
 
     // ✅ Handle adding a new comment
     const handleAddComment = async () => {
-      if (!newComment.userName.trim() || !newComment.comment.trim() || !newComment.rating) {
-          alert("All fields are required.");
-          return;
-      }
-  
-      const response = await fetch("http://localhost:5001/api/comments", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-              userName: newComment.userName.trim(),
-              rating: newComment.rating, 
-              comment: newComment.comment.trim(),
-              serviceId: service._id
-          }),
-      });
-  
-      const data = await response.json();
-      if (response.ok) {
-          setComments([data.comment, ...comments]); // ✅ Update UI
-          setNewComment({ userName: "", rating: 5, comment: "" }); // ✅ Reset form
-      } else {
-          alert(data.message);
-      }
-  };
-  
+        if (!newComment.userName.trim() || !newComment.comment.trim() || !newComment.rating) {
+            alert("All fields are required.");
+            return;
+        }
+
+        const response = await fetch("http://localhost:5001/api/comments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+                userName: newComment.userName.trim(),
+                rating: newComment.rating, 
+                comment: newComment.comment.trim(),
+                serviceId: service._id
+            }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            setComments([data.comment, ...comments]); // ✅ Update UI
+            setNewComment({ userName: "", rating: 5, comment: "" }); // ✅ Reset form
+        } else {
+            alert(data.message);
+        }
+    };
+
+    // ✅ Handle submitting a demo request
+    const handleRequestDemo = async () => {
+        if (!userName.trim() || !userEmail.trim() || !userMessage.trim()) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        const response = await fetch("http://localhost:5001/api/demo-requests", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                name: userName.trim(),
+                email: userEmail.trim(),
+                message: userMessage.trim(),
+            }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            alert("✅ Demo request submitted successfully!");
+            setShowDemoRequest(false);
+            setUserName("");
+            setUserEmail("");
+            setUserMessage("");
+        } else {
+            alert(data.message);
+        }
+    };
 
     return (
         <div className="service-card">
@@ -51,14 +83,54 @@ const ServiceCard = ({ service }) => {
             <h3>{service.name}</h3>
             <p>{service.description}</p>
 
+            {/* ✅ Request Demo Button */}
             <Button
                 variant="contained"
                 color="primary"
                 className="request-demo-btn"
-                onClick={() => alert(`Requesting demo for ${service.name}`)}
+                onClick={() => setShowDemoRequest(true)}
             >
                 Request Demo
             </Button>
+
+            {/* ✅ Request Demo Modal */}
+            <Modal open={showDemoRequest} onClose={() => setShowDemoRequest(false)}>
+                <div className="demo-request-modal">
+                    <Typography variant="h5">Request a Demo</Typography>
+                    <TextField
+                        label="Your Name"
+                        fullWidth
+                        margin="dense"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                    />
+                    <TextField
+                        label="Your Email" // ✅ Email Input Added
+                        fullWidth
+                        margin="dense"
+                        type="email"
+                        value={userEmail}
+                        onChange={(e) => setUserEmail(e.target.value)}
+                    />
+                    <TextField
+                        label="Your Message"
+                        multiline
+                        rows={3}
+                        fullWidth
+                        margin="dense"
+                        value={userMessage}
+                        onChange={(e) => setUserMessage(e.target.value)}
+                    />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleRequestDemo}
+                        style={{ marginTop: "12px" }}
+                    >
+                        Submit Request
+                    </Button>
+                </div>
+            </Modal>
 
             {/* ✅ Comments Button */}
             <Button
