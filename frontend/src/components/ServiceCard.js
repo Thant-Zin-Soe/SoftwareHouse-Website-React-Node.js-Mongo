@@ -5,7 +5,7 @@ import { Button, Modal, TextField, Rating, Typography } from "@mui/material";
 const ServiceCard = ({ service }) => {
     const [showDemoRequest, setShowDemoRequest] = useState(false);
     const [userName, setUserName] = useState("");
-    const [userEmail, setUserEmail] = useState(""); // ✅ Added email input
+    const [userEmail, setUserEmail] = useState(""); 
     const [userMessage, setUserMessage] = useState("");
     const [showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState([]);
@@ -41,19 +41,22 @@ const ServiceCard = ({ service }) => {
 
         const data = await response.json();
         if (response.ok) {
-            setComments([data.comment, ...comments]); // ✅ Update UI
-            setNewComment({ userName: "", rating: 5, comment: "" }); // ✅ Reset form
+            setComments([data.comment, ...comments]); 
+            setNewComment({ userName: "", rating: 5, comment: "" }); 
         } else {
             alert(data.message);
         }
     };
 
-    // ✅ Handle submitting a demo request
+    // ✅ Handle submitting a demo request (Now includes service name in message)
     const handleRequestDemo = async () => {
         if (!userName.trim() || !userEmail.trim() || !userMessage.trim()) {
             alert("Please fill in all fields.");
             return;
         }
+
+        // 🔹 Combine user message with service name
+        const fullMessage = `${userMessage} (Requested Service: ${service.name})`;
 
         const response = await fetch("http://localhost:5001/api/demo-requests", {
             method: "POST",
@@ -61,7 +64,8 @@ const ServiceCard = ({ service }) => {
             body: JSON.stringify({
                 name: userName.trim(),
                 email: userEmail.trim(),
-                message: userMessage.trim(),
+                message: fullMessage, 
+                serviceName: service.name, 
             }),
         });
 
@@ -105,7 +109,7 @@ const ServiceCard = ({ service }) => {
                         onChange={(e) => setUserName(e.target.value)}
                     />
                     <TextField
-                        label="Your Email" // ✅ Email Input Added
+                        label="Your Email"
                         fullWidth
                         margin="dense"
                         type="email"

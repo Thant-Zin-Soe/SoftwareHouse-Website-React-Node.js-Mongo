@@ -26,8 +26,6 @@
 
 // module.exports = router;
 
-
-
 const express = require("express");
 const DemoRequest = require("../models/DemoRequest");
 
@@ -40,16 +38,24 @@ const router = express.Router();
  */
 router.post("/", async (req, res) => {
     try {
-        const { name, email, message } = req.body;
+        const { name, email, message, serviceName } = req.body;
 
-        if (!name || !email || !message) {
+        if (!name || !email || !message || !serviceName) {
             return res.status(400).json({ message: "All fields are required." });
         }
 
-        const demoRequest = new DemoRequest({ name, email, message });
+        const fullMessage = `${message} (Requested Service: ${serviceName})`;
+
+        const demoRequest = new DemoRequest({ 
+            name, 
+            email, 
+            message: fullMessage,  // ✅ Now stores message + service name
+            serviceName
+        });
+
         await demoRequest.save();
 
-        res.status(201).json({ message: "Demo request submitted successfully!", demoRequest });
+        res.status(201).json({ message: "✅ Demo request submitted successfully!", demoRequest });
     } catch (error) {
         console.error("❌ Demo request error:", error);
         res.status(500).json({ message: "Server error" });
