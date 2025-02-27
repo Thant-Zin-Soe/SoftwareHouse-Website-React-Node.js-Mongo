@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 
 const Dashboard = () => {
@@ -64,6 +63,31 @@ const Dashboard = () => {
         }
     };
 
+    // ✅ Handle Delete Request
+    const handleDelete = async (type, id) => {
+        if (!window.confirm("Are you sure you want to delete this record?")) return;
+
+        try {
+            const token = localStorage.getItem("adminToken");
+            const response = await fetch(`http://localhost:5001/api/admin/${type}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert(`Successfully deleted ${type}!`);
+                window.location.reload(); // Refresh UI
+            } else {
+                alert(data.message || "Deletion failed!");
+            }
+        } catch (error) {
+            console.error("Error deleting record:", error);
+        }
+    };
+
     return (
         <div style={styles.container}>
             <h2 style={styles.title}>Admin Dashboard</h2>
@@ -80,6 +104,7 @@ const Dashboard = () => {
                                 <p><strong>Status:</strong> {request.status}</p>
                                 <button style={styles.approveBtn} onClick={() => handleAction("demo-requests", request._id, "approved")}>Approve</button>
                                 <button style={styles.rejectBtn} onClick={() => handleAction("demo-requests", request._id, "rejected")}>Reject</button>
+                                <button style={styles.deleteBtn} onClick={() => handleDelete("demo-requests", request._id)}>Delete</button>
                             </div>
                         )) : <p>No demo requests found.</p>}
                     </div>
@@ -94,6 +119,7 @@ const Dashboard = () => {
                                 <p><strong>Status:</strong> {booking.status}</p>
                                 <button style={styles.approveBtn} onClick={() => handleAction("bookings", booking._id, "approved")}>Approve</button>
                                 <button style={styles.rejectBtn} onClick={() => handleAction("bookings", booking._id, "rejected")}>Reject</button>
+                                <button style={styles.deleteBtn} onClick={() => handleDelete("bookings", booking._id)}>Delete</button>
                             </div>
                         )) : <p>No event bookings found.</p>}
                     </div>
@@ -103,7 +129,7 @@ const Dashboard = () => {
     );
 };
 
-// ✅ Basic Styling
+// ✅ Basic Styling (Add Delete Button Styling)
 const styles = {
     container: {
         width: "80%",
@@ -140,6 +166,15 @@ const styles = {
         backgroundColor: "red",
         color: "white",
         padding: "8px",
+        border: "none",
+        cursor: "pointer",
+        borderRadius: "4px",
+    },
+    deleteBtn: {
+        backgroundColor: "black",
+        color: "white",
+        padding: "8px",
+        marginLeft: "5px",
         border: "none",
         cursor: "pointer",
         borderRadius: "4px",
