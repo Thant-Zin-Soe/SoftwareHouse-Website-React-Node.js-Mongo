@@ -14,16 +14,7 @@ export const fetchServices = async () => {
 };
 
 
-// Fetch Events
-export const fetchEvents = async () => {
-    try {
-        const response = await axios.get(`${API_BASE_URL}/api/events`);
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching events:", error);
-        return [];
-    }
-};
+
 
 // Submit a Demo Request
 export const submitDemoRequest = async (data) => {
@@ -44,5 +35,16 @@ export const submitEventBooking = async (data) => {
     } catch (error) {
         console.error("Error booking event:", error);
         return { success: false };
+    }
+};
+
+// Submit an Event Events
+export const fetchEvents = async () => {
+    try {
+        const response = await fetch("http://localhost:5001/api/events");
+        return await response.json();
+    } catch (error) {
+        console.error("❌ Error fetching events:", error);
+        return [];
     }
 };

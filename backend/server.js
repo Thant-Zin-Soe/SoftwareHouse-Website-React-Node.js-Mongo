@@ -42,6 +42,7 @@ const demoRequestRoutes = require("./routes/demoRequestRoutes");
 const userRoutes = require("./routes/userRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const commentRoutes = require("./routes/commentRoutes"); // ✅ Comment Routes
+const eventsRoutes = require("./routes/eventsRoutes");  // ✅ New Event Route
 
 // ✅ Register Routes with Logging
 const routes = [
@@ -50,7 +51,9 @@ const routes = [
     { path: "/api/demo-requests", route: demoRequestRoutes },
     { path: "/api/user", route: userRoutes },
     { path: "/api/services", route: serviceRoutes },
-    { path: "/api/comments", route: commentRoutes }
+    { path: "/api/comments", route: commentRoutes },
+    { path: "/api/events", route: eventsRoutes } // ✅ Register Events Route
+
 ];
 
 console.log("🔹 Loading Routes...");
@@ -74,3 +77,8 @@ app.use((err, req, res, next) => {
 // ✅ Start Server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+
+const eventRoutes = require("./routes/eventsRoutes");
+
+app.use("/api/events", eventRoutes);
+console.log("✅ Event Routes Loaded: /api/events");
