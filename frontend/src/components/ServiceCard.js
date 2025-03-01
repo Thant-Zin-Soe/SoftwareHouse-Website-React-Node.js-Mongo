@@ -56,7 +56,7 @@ const ServiceCard = ({ service }) => {
         }
 
         // 🔹 Combine user message with service name
-        const fullMessage = `${userMessage} (Requested Service: ${service.name})`;
+        const fullMessage = `${userMessage}`;
 
         const response = await fetch("http://localhost:5001/api/demo-requests", {
             method: "POST",
