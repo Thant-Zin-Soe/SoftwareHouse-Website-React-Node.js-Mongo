@@ -37,23 +37,22 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // ✅ Import Routes
 const adminRoutes = require("./routes/adminRoutes");
-const bookingRoutes = require("./routes/bookingRoutes");
+const eventRegistrationRoutes = require("./routes/eventRegistrationRoutes"); // ✅ Corrected route name
 const demoRequestRoutes = require("./routes/demoRequestRoutes");
 const userRoutes = require("./routes/userRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
-const commentRoutes = require("./routes/commentRoutes"); // ✅ Comment Routes
-const eventsRoutes = require("./routes/eventsRoutes");  // ✅ New Event Route
+const commentRoutes = require("./routes/commentRoutes");
+const eventRoutes = require("./routes/eventsRoutes");
 
 // ✅ Register Routes with Logging
 const routes = [
     { path: "/api/admin", route: adminRoutes },
-    { path: "/api/bookings", route: bookingRoutes },
+    { path: "/api/event-registrations", route: eventRegistrationRoutes }, // ✅ Updated to correct route
     { path: "/api/demo-requests", route: demoRequestRoutes },
     { path: "/api/user", route: userRoutes },
     { path: "/api/services", route: serviceRoutes },
     { path: "/api/comments", route: commentRoutes },
-    { path: "/api/events", route: eventsRoutes } // ✅ Register Events Route
-
+    { path: "/api/events", route: eventRoutes }
 ];
 
 console.log("🔹 Loading Routes...");
@@ -77,12 +76,3 @@ app.use((err, req, res, next) => {
 // ✅ Start Server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
-
-const eventRoutes = require("./routes/eventsRoutes");
-
-app.use("/api/events", eventRoutes);
-console.log("✅ Event Routes Loaded: /api/events");
-
-
-const eventRegistrationRoutes = require("./routes/eventRegistrationRoutes");
-app.use("/api/event-registrations", eventRegistrationRoutes);

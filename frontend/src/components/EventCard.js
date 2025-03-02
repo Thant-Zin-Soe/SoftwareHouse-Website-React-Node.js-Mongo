@@ -27,7 +27,7 @@ const EventCard = ({ event, allowRegistration, allowComments }) => {
             return;
         }
 
-        const fullMessage = `${userMessage} (Event: ${event.name})`;
+        // const fullMessage = `${userMessage}`;
 
         const response = await fetch("http://localhost:5001/api/event-registrations", {
             method: "POST",
@@ -35,7 +35,7 @@ const EventCard = ({ event, allowRegistration, allowComments }) => {
             body: JSON.stringify({
                 name: userName.trim(),
                 email: userEmail.trim(),
-                message: fullMessage,
+                message: userMessage.trim(),
                 eventId: event._id,
             }),
         });

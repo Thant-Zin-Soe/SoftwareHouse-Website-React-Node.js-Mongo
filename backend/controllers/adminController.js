@@ -1,7 +1,5 @@
-
-
 const DemoRequest = require("../models/DemoRequest");
-const Booking = require("../models/Booking");
+const EventRegistration = require("../models/EventRegistration"); // ✅ Updated model name
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 
@@ -41,15 +39,19 @@ const sendEmailNotification = async (to, subject, text) => {
 };
 
 /**
- * ✅ Get all event bookings (Admin Only)
+ * ✅ Get all event registrations (Admin Only)
+ * ✅ Updated to populate event name and date
  */
-exports.getAllBookings = async (req, res) => {
+exports.getAllEventRegistrations = async (req, res) => {
     try {
-        const bookings = await Booking.find();
-        res.status(200).json(bookings);
+        const registrations = await EventRegistration.find()
+            .populate("eventId", "name date") // ✅ Populate event name and date
+            .sort({ createdAt: -1 });
+
+        res.status(200).json(registrations);
     } catch (error) {
-        console.error("❌ Error fetching bookings:", error);
-        res.status(500).json({ message: "Server error while fetching bookings", error });
+        console.error("❌ Error fetching event registrations:", error);
+        res.status(500).json({ message: "Server error while fetching event registrations", error });
     }
 };
 
@@ -67,9 +69,9 @@ exports.getAllDemoRequests = async (req, res) => {
 };
 
 /**
- * ✅ Approve or Reject Event Booking & Send Email Notification
+ * ✅ Approve or Reject Event Registration & Send Email Notification
  */
-exports.approveBooking = async (req, res) => {
+exports.approveEventRegistration = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
@@ -78,34 +80,34 @@ exports.approveBooking = async (req, res) => {
     }
 
     try {
-        const booking = await Booking.findById(id);
-        if (!booking) {
-            return res.status(404).json({ message: "Booking not found" });
+        const registration = await EventRegistration.findById(id).populate("eventId", "name date");
+        if (!registration) {
+            return res.status(404).json({ message: "Event registration not found" });
         }
 
-        if (booking.status === status) {
-            return res.status(200).json({ message: `Booking is already marked as ${status}. No changes made.` });
+        if (registration.status === status) {
+            return res.status(200).json({ message: `Event registration is already marked as ${status}. No changes made.` });
         }
 
-        booking.status = status;
-        await booking.save();
+        registration.status = status;
+        await registration.save();
 
         // ✅ Send Email Notification
         try {
             await sendEmailNotification(
-                booking.email,
-                `Your Event Booking has been ${status}`,
-                `Dear ${booking.name},\n\nYour booking for "${booking.event}" on ${booking.date} has been ${status}.\n\nBest regards,\nAI Solution Team`
+                registration.email,
+                `Your Event Registration has been ${status}`,
+                `Dear ${registration.name},\n\nYour registration for the event "${registration.eventId?.name}" scheduled on ${new Date(registration.eventId?.date).toLocaleDateString()} has been ${status}.\n\nBest regards,\nAI Solution Team`
             );
         } catch (emailError) {
-            return res.status(500).json({ message: "Booking updated, but email notification failed.", error: emailError });
+            return res.status(500).json({ message: "Event registration updated, but email notification failed.", error: emailError });
         }
 
-        res.status(200).json({ message: `Booking ${status} successfully`, booking });
+        res.status(200).json({ message: `Event registration ${status} successfully`, registration });
 
     } catch (error) {
-        console.error("❌ Error updating booking status:", error);
-        res.status(500).json({ message: "Server error while updating booking status", error });
+        console.error("❌ Error updating event registration status:", error);
+        res.status(500).json({ message: "Server error while updating event registration status", error });
     }
 };
 

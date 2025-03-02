@@ -13,9 +13,10 @@ const eventRegistrationSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    eventId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Event',
+    eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event", required: true },
+    date: {
+        type: Date,
+        default: Date.now, // Automatically sets the current date if not provided
         required: true,
     },
     status: {

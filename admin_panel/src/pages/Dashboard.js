@@ -5,7 +5,7 @@ const Dashboard = () => {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // ✅ Fetch Demo Requests & Bookings when page loads
+    // ✅ Fetch Demo Requests & Event Bookings when page loads
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -19,7 +19,7 @@ const Dashboard = () => {
                 const demoRes = await fetch("http://localhost:5001/api/admin/demo-requests", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                const bookingRes = await fetch("http://localhost:5001/api/admin/bookings", {
+                const bookingRes = await fetch("http://localhost:5001/api/admin/event-registrations", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -51,11 +51,11 @@ const Dashboard = () => {
                 body: JSON.stringify({ status }),
             });
 
-            const data = await response.json();
             if (response.ok) {
                 alert(`Successfully ${status} ${type}!`);
                 window.location.reload(); // Refresh to update list
             } else {
+                const data = await response.json();
                 alert(data.message || "Action failed!");
             }
         } catch (error) {
@@ -76,11 +76,11 @@ const Dashboard = () => {
                 },
             });
 
-            const data = await response.json();
             if (response.ok) {
                 alert(`Successfully deleted ${type}!`);
                 window.location.reload(); // Refresh UI
             } else {
+                const data = await response.json();
                 alert(data.message || "Deletion failed!");
             }
         } catch (error) {
@@ -92,7 +92,9 @@ const Dashboard = () => {
         <div style={styles.container}>
             <h2 style={styles.title}>Admin Dashboard</h2>
 
-            {loading ? <p>Loading...</p> : (
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
                 <>
                     <div style={styles.section}>
                         <h3>📌 Demo Requests</h3>
@@ -111,26 +113,28 @@ const Dashboard = () => {
                     </div>
 
                     <div style={styles.section}>
-                        <h3>📅 Event Bookings</h3>
-                        {bookings.length > 0 ? bookings.map(booking => (
-                            <div key={booking._id} style={styles.card}>
-                                <p><strong>Name:</strong> {booking.name}</p>
-                                <p><strong>Email:</strong> {booking.email}</p>
-                                <p><strong>Event:</strong> {booking.event}</p>
-                                <p><strong>Status:</strong> {booking.status}</p>
-                                <button style={styles.approveBtn} onClick={() => handleAction("bookings", booking._id, "approved")}>Approve</button>
-                                <button style={styles.rejectBtn} onClick={() => handleAction("bookings", booking._id, "rejected")}>Reject</button>
-                                <button style={styles.deleteBtn} onClick={() => handleDelete("bookings", booking._id)}>Delete</button>
-                            </div>
-                        )) : <p>No event bookings found.</p>}
-                    </div>
+    <h3>📅 Event Bookings</h3>
+    {bookings.length > 0 ? bookings.map(booking => (
+        <div key={booking._id} style={styles.card}>
+            <p><strong>Name:</strong> {booking.name}</p>
+            <p><strong>Email:</strong> {booking.email}</p>
+            <p><strong>Event:</strong> {booking.eventId?.name ?? "No Event Name"}</p> {/* ✅ Corrected display */}
+            <p><strong>Message:</strong> {booking.message}</p>
+            <p><strong>Status:</strong> {booking.status}</p>
+            <button style={styles.approveBtn} onClick={() => handleAction("event-registrations", booking._id, "approved")}>Approve</button>
+            <button style={styles.rejectBtn} onClick={() => handleAction("event-registrations", booking._id, "rejected")}>Reject</button>
+            <button style={styles.deleteBtn} onClick={() => handleDelete("event-registrations", booking._id)}>Delete</button>
+        </div>
+    )) : <p>No event bookings found.</p>}
+</div>
+
                 </>
             )}
         </div>
     );
 };
 
-// ✅ Basic Styling (Add Delete Button Styling)
+// ✅ Basic Styling
 const styles = {
     container: {
         width: "80%",
