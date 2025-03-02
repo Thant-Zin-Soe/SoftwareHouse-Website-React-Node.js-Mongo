@@ -82,3 +82,7 @@ const eventRoutes = require("./routes/eventsRoutes");
 
 app.use("/api/events", eventRoutes);
 console.log("✅ Event Routes Loaded: /api/events");
+
+
+const eventRegistrationRoutes = require("./routes/eventRegistrationRoutes");
+app.use("/api/event-registrations", eventRegistrationRoutes);

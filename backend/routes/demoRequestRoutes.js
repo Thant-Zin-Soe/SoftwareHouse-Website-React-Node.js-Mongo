@@ -44,12 +44,12 @@ router.post("/", async (req, res) => {
             return res.status(400).json({ message: "All fields are required." });
         }
 
-        const fullMessage = `${message} (Requested Service: ${serviceName})`;
+        const fullMessage = `${message}`;
 
         const demoRequest = new DemoRequest({ 
             name, 
             email, 
-            message: fullMessage,  // ✅ Now stores message + service name
+            message: fullMessage,  
             serviceName
         });
 
