@@ -13,7 +13,11 @@ const eventRegistrationSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event", required: true },
+    eventId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Event", 
+        required: true 
+    },
     date: {
         type: Date,
         default: Date.now, // Automatically sets the current date if not provided
@@ -21,8 +25,8 @@ const eventRegistrationSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Approved', 'Rejected'],
-        default: 'Pending',
+        enum: ['pending', 'approved', 'rejected'], // ✅ Updated to lowercase to match validation
+        default: 'pending',
     },
 }, { timestamps: true });
 
