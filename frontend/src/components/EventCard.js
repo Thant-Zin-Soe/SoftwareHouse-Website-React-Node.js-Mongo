@@ -13,12 +13,12 @@ const EventCard = ({ event, allowRegistration, allowComments }) => {
 
     useEffect(() => {
         if (showComments) {
-            fetch(`http://localhost:5001/api/comments/${event._id}`)
+            fetch(`http://localhost:5001/api/comments/event/${event._id}`)
                 .then((res) => res.json())
                 .then((data) => setComments(data))
                 .catch((err) => console.error("❌ Error fetching comments:", err));
         }
-    }, [showComments]);
+    }, [showComments, event._id]);
 
     // ✅ Handle event registration
     const handleRegister = async () => {
@@ -26,8 +26,6 @@ const EventCard = ({ event, allowRegistration, allowComments }) => {
             alert("Please fill in all fields.");
             return;
         }
-
-        // const fullMessage = `${userMessage}`;
 
         const response = await fetch("http://localhost:5001/api/event-registrations", {
             method: "POST",
@@ -66,7 +64,7 @@ const EventCard = ({ event, allowRegistration, allowComments }) => {
                 userName: newComment.userName.trim(),
                 rating: newComment.rating,
                 comment: newComment.comment.trim(),
-                eventId: event._id,
+                eventId: event._id, // ✅ Correctly passing eventId for event comments
             }),
         });
 

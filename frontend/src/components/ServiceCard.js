@@ -5,7 +5,7 @@ import { Button, Modal, TextField, Rating, Typography } from "@mui/material";
 const ServiceCard = ({ service }) => {
     const [showDemoRequest, setShowDemoRequest] = useState(false);
     const [userName, setUserName] = useState("");
-    const [userEmail, setUserEmail] = useState(""); 
+    const [userEmail, setUserEmail] = useState("");
     const [userMessage, setUserMessage] = useState("");
     const [showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState([]);
@@ -14,12 +14,12 @@ const ServiceCard = ({ service }) => {
     // ✅ Fetch comments when modal opens
     useEffect(() => {
         if (showComments) {
-            fetch(`http://localhost:5001/api/comments/${service._id}`)
+            fetch(`http://localhost:5001/api/comments/service/${service._id}`)
                 .then((res) => res.json())
                 .then((data) => setComments(data))
                 .catch((err) => console.error("❌ Error fetching comments:", err));
         }
-    }, [showComments]);
+    }, [showComments, service._id]);
 
     // ✅ Handle adding a new comment
     const handleAddComment = async () => {
@@ -31,32 +31,29 @@ const ServiceCard = ({ service }) => {
         const response = await fetch("http://localhost:5001/api/comments", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 userName: newComment.userName.trim(),
-                rating: newComment.rating, 
+                rating: newComment.rating,
                 comment: newComment.comment.trim(),
-                serviceId: service._id
+                serviceId: service._id,
             }),
         });
 
         const data = await response.json();
         if (response.ok) {
-            setComments([data.comment, ...comments]); 
-            setNewComment({ userName: "", rating: 5, comment: "" }); 
+            setComments([data.comment, ...comments]);
+            setNewComment({ userName: "", rating: 5, comment: "" });
         } else {
             alert(data.message);
         }
     };
 
-    // ✅ Handle submitting a demo request (Now includes service name in message)
+    // ✅ Handle submitting a demo request
     const handleRequestDemo = async () => {
         if (!userName.trim() || !userEmail.trim() || !userMessage.trim()) {
             alert("Please fill in all fields.");
             return;
         }
-
-        // 🔹 Combine user message with service name
-        const fullMessage = `${userMessage}`;
 
         const response = await fetch("http://localhost:5001/api/demo-requests", {
             method: "POST",
@@ -64,8 +61,8 @@ const ServiceCard = ({ service }) => {
             body: JSON.stringify({
                 name: userName.trim(),
                 email: userEmail.trim(),
-                message: fullMessage, 
-                serviceName: service.name, 
+                message: userMessage.trim(),
+                serviceName: service.name,
             }),
         });
 
@@ -151,7 +148,7 @@ const ServiceCard = ({ service }) => {
                 <div className="comments-modal">
                     <Typography variant="h5">Comments & Reviews</Typography>
 
-                    {/* ✅ Comment Form (No Email Field) */}
+                    {/* ✅ Comment Form */}
                     <TextField
                         label="Your Name"
                         fullWidth
