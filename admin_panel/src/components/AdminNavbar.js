@@ -24,6 +24,9 @@ const AdminNavbar = () => {
           <NavLink to="/manage-comments" activeclassname="active">Manage Comments</NavLink>
         </li>
         <li>
+          <NavLink to="/manage-content" activeclassname="active">Manage Content</NavLink>
+</li>
+        <li>
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </li>
       </ul>
