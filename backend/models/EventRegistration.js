@@ -25,9 +25,10 @@ const eventRegistrationSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'approved', 'rejected'], // ✅ Updated to lowercase to match validation
-        default: 'pending',
-    },
+        enum: ['Pending', 'Approved', 'Rejected'], // Capitalized
+        default: 'Pending',
+      }
+      ,
 }, { timestamps: true });
 
 module.exports = mongoose.model('EventRegistration', eventRegistrationSchema);

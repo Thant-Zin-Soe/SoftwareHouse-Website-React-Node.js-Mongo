@@ -68,6 +68,49 @@ exports.getAllDemoRequests = async (req, res) => {
     }
 };
 
+// /**
+//  * ✅ Approve or Reject Event Registration & Send Email Notification
+//  */
+
+// exports.approveEventRegistration = async (req, res) => {
+//     const { id } = req.params;
+//     const { status } = req.body;
+
+//     if (!["approved", "rejected"].includes(status)) {
+//         return res.status(400).json({ message: "Invalid status. Use 'approved' or 'rejected'." });
+//     }
+
+//     try {
+//         const registration = await EventRegistration.findById(id).populate("eventId", "name date");
+//         if (!registration) {
+//             return res.status(404).json({ message: "Event registration not found" });
+//         }
+
+//         if (registration.status === status) {
+//             return res.status(200).json({ message: `Event registration is already marked as ${status}. No changes made.` });
+//         }
+
+//         registration.status = status;
+//         await registration.save();
+
+//         // ✅ Send Email Notification
+//         try {
+//             await sendEmailNotification(
+//                 registration.email,
+//                 `Your Event Registration has been ${status}`,
+//                 `Dear ${registration.name},\n\nYour registration for the event "${registration.eventId?.name}" scheduled on ${new Date(registration.eventId?.date).toLocaleDateString()} has been ${status}.\n\nBest regards,\nAI Solution Team`
+//             );
+//         } catch (emailError) {
+//             return res.status(500).json({ message: "Event registration updated, but email notification failed.", error: emailError });
+//         }
+
+//         res.status(200).json({ message: `Event registration ${status} successfully`, registration });
+
+//     } catch (error) {
+//         console.error("❌ Error updating event registration status:", error);
+//         res.status(500).json({ message: "Server error while updating event registration status", error });
+//     }
+// };
 /**
  * ✅ Approve or Reject Event Registration & Send Email Notification
  */
@@ -75,8 +118,10 @@ exports.approveEventRegistration = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!["approved", "rejected"].includes(status)) {
-        return res.status(400).json({ message: "Invalid status. Use 'approved' or 'rejected'." });
+    const normalizedStatus = capitalize(status); // Convert to 'Approved' or 'Rejected'
+
+    if (!["Approved", "Rejected"].includes(normalizedStatus)) {
+        return res.status(400).json({ message: "Invalid status. Use 'Approved' or 'Rejected'." });
     }
 
     try {
@@ -85,25 +130,25 @@ exports.approveEventRegistration = async (req, res) => {
             return res.status(404).json({ message: "Event registration not found" });
         }
 
-        if (registration.status === status) {
-            return res.status(200).json({ message: `Event registration is already marked as ${status}. No changes made.` });
+        if (registration.status === normalizedStatus) {
+            return res.status(200).json({ message: `Event registration is already marked as ${normalizedStatus}. No changes made.` });
         }
 
-        registration.status = status;
+        registration.status = normalizedStatus;
         await registration.save();
 
         // ✅ Send Email Notification
         try {
             await sendEmailNotification(
                 registration.email,
-                `Your Event Registration has been ${status}`,
-                `Dear ${registration.name},\n\nYour registration for the event "${registration.eventId?.name}" scheduled on ${new Date(registration.eventId?.date).toLocaleDateString()} has been ${status}.\n\nBest regards,\nAI Solution Team`
+                `Your Event Registration has been ${normalizedStatus}`,
+                `Dear ${registration.name},\n\nYour registration for the event "${registration.eventId?.name}" scheduled on ${new Date(registration.eventId?.date).toLocaleDateString()} has been ${normalizedStatus}.\n\nBest regards,\nAI Solution Team`
             );
         } catch (emailError) {
             return res.status(500).json({ message: "Event registration updated, but email notification failed.", error: emailError });
         }
 
-        res.status(200).json({ message: `Event registration ${status} successfully`, registration });
+        res.status(200).json({ message: `Event registration ${normalizedStatus} successfully`, registration });
 
     } catch (error) {
         console.error("❌ Error updating event registration status:", error);
@@ -111,14 +156,62 @@ exports.approveEventRegistration = async (req, res) => {
     }
 };
 
+// 🔧 Helper function
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 /**
  * ✅ Approve or Reject Demo Request & Send Email Notification
- */
+//  */
+// exports.approveDemoRequest = async (req, res) => {
+//     const { id } = req.params;
+//     const { status } = req.body;
+
+//     if (!["Approved", "Rejected"].includes(status)) {
+//         return res.status(400).json({ message: "Invalid status. Use 'approved' or 'rejected'." });
+//     }
+
+//     try {
+//         const demoRequest = await DemoRequest.findById(id);
+//         if (!demoRequest) {
+//             return res.status(404).json({ message: "Demo request not found" });
+//         }
+
+//         if (demoRequest.status === status) {
+//             return res.status(200).json({ message: `Demo request is already marked as ${status}. No changes made.` });
+//         }
+
+//         demoRequest.status = status;
+//         await demoRequest.save();
+
+//         // ✅ Send Email Notification
+//         try {
+//             await sendEmailNotification(
+//                 demoRequest.email,
+//                 `Your Demo Request has been ${status}`,
+//                 `Dear ${demoRequest.name},\n\nYour request for a demo has been ${status}.\n\nBest regards,\nAI Solution Team`
+//             );
+//         } catch (emailError) {
+//             return res.status(500).json({ message: "Demo request updated, but email notification failed.", error: emailError });
+//         }
+
+//         res.status(200).json({ message: `Demo request ${status} successfully`, demoRequest });
+
+//     } catch (error) {
+//         console.error("❌ Error updating demo request status:", error);
+//         res.status(500).json({ message: "Server error while updating demo request status", error });
+//     }
+// };
+
 exports.approveDemoRequest = async (req, res) => {
     const { id } = req.params;
-    const { status } = req.body;
+    let { status } = req.body;
 
-    if (!["approved", "rejected"].includes(status)) {
+    // 🔁 Convert lowercase to capitalized form
+    status = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+
+    if (!["Approved", "Rejected"].includes(status)) {
         return res.status(400).json({ message: "Invalid status. Use 'approved' or 'rejected'." });
     }
 

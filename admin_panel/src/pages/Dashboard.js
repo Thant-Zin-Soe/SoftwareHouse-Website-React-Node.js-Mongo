@@ -121,7 +121,7 @@ const Dashboard = () => {
             <p><strong>Event:</strong> {booking.eventId?.name ?? "No Event Name"}</p> {/* ✅ Corrected display */}
             <p><strong>Message:</strong> {booking.message}</p>
             <p><strong>Status:</strong> {booking.status}</p>
-            <button style={styles.approveBtn} onClick={() => handleAction("event-registrations", booking._id, "approved")}>Approve</button>
+            <button style={styles.approveBtn} onClick={() => handleAction("event-registrations", booking._id, "Approved")}>Approve</button>
 <button style={styles.rejectBtn} onClick={() => handleAction("event-registrations", booking._id, "rejected")}>Reject</button>
 
 
