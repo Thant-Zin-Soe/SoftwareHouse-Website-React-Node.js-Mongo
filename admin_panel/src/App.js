@@ -1,3 +1,4 @@
+// ✅ admin-panel/src/App.js
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
@@ -5,22 +6,22 @@ import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import ManageBlogs from "./pages/ManageBlogs";
 import ManageComments from "./pages/ManageComments";
+import ManageContent from "./pages/ManageContent";
 import AdminLayout from "./components/AdminLayout";
-import ManageContent from "./pages/ManageContent"; 
 
 function App() {
   return (
     <div className="admin-container">
       <Routes>
-        {/* No Navbar */}
+        {/* Public routes (no navbar) */}
         <Route path="/auth" element={<Auth />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* With Navbar */}
+        {/* Admin routes (with navbar layout) */}
         <Route path="/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
         <Route path="/manage-blogs" element={<AdminLayout><ManageBlogs /></AdminLayout>} />
         <Route path="/manage-comments" element={<AdminLayout><ManageComments /></AdminLayout>} />
-        <Route path="/manage-content" element={<ManageContent />} />
+        <Route path="/manage-content" element={<AdminLayout><ManageContent /></AdminLayout>} />
       </Routes>
     </div>
   );
