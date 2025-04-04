@@ -1,0 +1,22 @@
+[33mbc90191[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Post blog success but not finish in  Public Blog Page
+[33mebbba40[m Added Nav Bar to Admin Panal
+[33m79dae6c[m Fixed Bug Reject,Approve for Both
+[33m20e0309[m Done for delete,approv,reject fro both in Dashboard.js
+[33m06d421d[m Done for service page and Event page
+[33madd6213[m 15th Event page request working but comment not yet
+[33mc3af321[m 14th Service Done but not complete
+[33m03eef79[m 13 th time Event UI correct but still not working
+[33me9d3223[m 13th time (Done Service user side )
+[33m3fe339f[m 13th time  (just remove bug )
+[33m051c960[m 13th Done Event Page but Not working Register and Comment
+[33mdb9455f[m 12th Done adding admin panle delete button
+[33m1e042aa[m 11 th service page finish think so
+[33m5ca9690[m 10th finish service functions in public web page
+[33mfc9fc32[m 9th similar as 8th time but nav bar fixed
+[33md225e14[m 8th time comment section feature done
+[33me08d1f7[m 7th time fixed Nav bar and admin panel  First Step
+[33m83f069d[m 6th commit Complete Nav bar but Left req Demo and booking in Service section
+[33mddb4704[m 5th Not complish UI service but finish  fetch data to service
+[33mde5c527[m 4th Commit - Done Fetching Services from database to Service Page
+[33m8114ccb[m 3rd commit
+[33m9d35651[m Second commit ady done admin panle
