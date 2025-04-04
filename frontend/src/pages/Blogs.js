@@ -1,11 +1,10 @@
-
-
-// ✅ frontend/src/pages/Blogs.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -19,21 +18,48 @@ const Blogs = () => {
     fetchBlogs();
   }, []);
 
+  const handleView = (id) => {
+    navigate(`/blogs/${id}`);
+  };
+
   return (
     <div style={{ padding: "40px" }}>
       <h2 style={{ textAlign: "center" }}>📰 Our Blog Articles</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "20px", marginTop: "30px" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "20px",
+          marginTop: "30px",
+        }}
+      >
         {blogs.map((blog) => (
           <div key={blog._id} style={styles.card}>
-            <img src={blog.image} alt={blog.title} style={styles.image} />
+            <img
+              src={`http://localhost:5001/uploads/${blog.image}`}
+              alt={blog.title}
+              style={styles.image}
+              onClick={() => handleView(blog._id)}
+            />
             <h3>{blog.title}</h3>
             <p>{blog.description.substring(0, 150)}...</p>
-            <button
-              onClick={() => navigator.share({ title: blog.title, text: blog.description, url: window.location.href })}
-              style={styles.shareBtn}
-            >
-              Share
-            </button>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button
+                onClick={() =>
+                  navigator.share({
+                    title: blog.title,
+                    text: blog.description,
+                    url: window.location.href,
+                  })
+                }
+                style={styles.shareBtn}
+              >
+                Share
+              </button>
+              <button onClick={() => handleView(blog._id)} style={styles.readBtn}>
+                Read More
+              </button>
+            </div>
           </div>
         ))}
       </div>
@@ -47,6 +73,7 @@ const styles = {
     padding: "20px",
     borderRadius: "10px",
     boxShadow: "0px 2px 8px rgba(0,0,0,0.1)",
+    cursor: "pointer",
   },
   image: {
     width: "100%",
@@ -60,7 +87,14 @@ const styles = {
     border: "none",
     padding: "10px",
     cursor: "pointer",
-    marginTop: "10px",
+    borderRadius: "5px",
+  },
+  readBtn: {
+    backgroundColor: "#007BFF",
+    color: "white",
+    border: "none",
+    padding: "10px",
+    cursor: "pointer",
     borderRadius: "5px",
   },
 };
