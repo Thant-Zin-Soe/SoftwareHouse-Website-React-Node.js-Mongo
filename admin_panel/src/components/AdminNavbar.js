@@ -12,7 +12,7 @@ const AdminNavbar = () => {
 
   return (
     <nav className="admin-navbar">
-      <div className="logo">AI Admin Panel</div>
+      <div className="logo">AI Solutions Admin Panel</div>
       <ul className="nav-links">
         <li>
           <NavLink to="/dashboard" activeclassname="active">Dashboard</NavLink>

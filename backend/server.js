@@ -10,7 +10,8 @@ const app = express();
 // ✅ Middleware
 app.use(express.json());
 app.use(cors());
-
+const blogRoutes = require("./routes/blogRoutes");
+app.use("/api/blogs", blogRoutes);
 // ✅ Check Required ENV Variables
 if (!process.env.MONGO_URI) {
     console.error("❌ ERROR: Missing MONGO_URI in .env file!");
@@ -76,3 +77,13 @@ app.use((err, req, res, next) => {
 // ✅ Start Server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+
+
+
+
+const path = require("path");
+
+// Serve static files
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
+
