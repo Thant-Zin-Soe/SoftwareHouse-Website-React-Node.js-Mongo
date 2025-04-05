@@ -13,6 +13,8 @@ const ManageContent = () => {
   const [eventDate, setEventDate] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventImage, setEventImage] = useState(null);
+  const [eventLocation, setEventLocation] = useState("");
+
 
   const token = localStorage.getItem("adminToken");
 
@@ -49,6 +51,7 @@ const ManageContent = () => {
       formData.append("description", eventDescription);
       formData.append("date", eventDate);
       formData.append("image", eventImage);
+      formData.append("location", eventLocation);
 
       await axios.post("http://localhost:5001/api/events", formData, {
         headers: {
@@ -104,7 +107,7 @@ const ManageContent = () => {
 
       {/* === Event Form === */}
    {/* === Event Form === */}
-<section style={styles.section}>
+   <section style={styles.section}>
   <h3>📅 Post New Event</h3>
   <form onSubmit={handleEventSubmit} style={styles.form}>
     <input
@@ -112,6 +115,14 @@ const ManageContent = () => {
       placeholder="Event Name"
       value={eventName}
       onChange={(e) => setEventName(e.target.value)}
+      required
+      style={styles.input}
+    />
+    <input
+      type="text"
+      placeholder="Location"
+      value={eventLocation}
+      onChange={(e) => setEventLocation(e.target.value)}
       required
       style={styles.input}
     />
@@ -132,6 +143,7 @@ const ManageContent = () => {
     <button type="submit" style={styles.button}>Post Event</button>
   </form>
 </section>
+
 
     </div>
   );
