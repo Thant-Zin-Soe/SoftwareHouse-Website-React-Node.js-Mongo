@@ -80,7 +80,11 @@ const ServiceCard = ({ service }) => {
 
     return (
         <div className="service-card">
-            <img src={service.image} alt={service.name} className="service-image" />
+           <img
+  src={service.image?.startsWith("http") ? service.image : `http://localhost:5001${service.image}`}
+  alt={service.name}
+  className="service-image"
+/>
             <h3>{service.name}</h3>
             <p>{service.description}</p>
 
