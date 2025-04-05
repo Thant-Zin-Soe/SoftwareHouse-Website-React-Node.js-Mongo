@@ -103,41 +103,36 @@ const ManageContent = () => {
       </section>
 
       {/* === Event Form === */}
-      <section style={styles.section}>
-        <h3>📅 Post New Event</h3>
-        <form onSubmit={handleEventSubmit} style={styles.form}>
-          <input
-            type="text"
-            placeholder="Event Name"
-            value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
-            required
-            style={styles.input}
-          />
-          <input
-            type="date"
-            value={eventDate}
-            onChange={(e) => setEventDate(e.target.value)}
-            required
-            style={styles.input}
-          />
-          <textarea
-            placeholder="Event Description"
-            value={eventDescription}
-            onChange={(e) => setEventDescription(e.target.value)}
-            required
-            style={styles.textarea}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setEventImage(e.target.files[0])}
-            required
-            style={styles.input}
-          />
-          <button type="submit" style={styles.button}>Post Event</button>
-        </form>
-      </section>
+   {/* === Event Form === */}
+<section style={styles.section}>
+  <h3>📅 Post New Event</h3>
+  <form onSubmit={handleEventSubmit} style={styles.form}>
+    <input
+      type="text"
+      placeholder="Event Name"
+      value={eventName}
+      onChange={(e) => setEventName(e.target.value)}
+      required
+      style={styles.input}
+    />
+    <input
+      type="date"
+      value={eventDate}
+      onChange={(e) => setEventDate(e.target.value)}
+      required
+      style={styles.input}
+    />
+    <textarea
+      placeholder="Event Description"
+      value={eventDescription}
+      onChange={(e) => setEventDescription(e.target.value)}
+      required
+      style={styles.textarea}
+    />
+    <button type="submit" style={styles.button}>Post Event</button>
+  </form>
+</section>
+
     </div>
   );
 };
