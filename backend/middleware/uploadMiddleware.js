@@ -1,7 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 
-// Set storage engine
+// ✅ Set storage engine
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/"); // Save to 'uploads' folder
@@ -11,17 +11,20 @@ const storage = multer.diskStorage({
   },
 });
 
-// File filter for images only
+// ✅ File filter (images and Word docs)
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif/;
-  const ext = path.extname(file.originalname).toLowerCase();
-  if (allowedTypes.test(ext)) {
+  const allowedImageTypes = /jpeg|jpg|png|gif/;
+  const allowedDocTypes = /doc|docx/;
+  const ext = path.extname(file.originalname).toLowerCase().substring(1); // remove the dot
+
+  if (allowedImageTypes.test(ext) || allowedDocTypes.test(ext)) {
     cb(null, true);
   } else {
-    cb("Images only! (jpeg/jpg/png/gif)", false);
+    cb("Only image (jpeg, jpg, png, gif) and Word (.doc, .docx) files are allowed", false);
   }
 };
 
+// ✅ Export multer instance
 const upload = multer({ storage, fileFilter });
 
 module.exports = upload;
