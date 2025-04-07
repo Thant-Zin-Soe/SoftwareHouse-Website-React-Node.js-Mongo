@@ -1,4 +1,3 @@
-
 // ✅ backend/routes/contactRoutes.js
 const express = require("express");
 const router = express.Router();
@@ -17,5 +16,8 @@ router.post(
 
 // ✅ Get all messages
 router.get("/", contactController.getAllMessages);
+
+// ✅ Delete a contact message by ID
+router.delete("/:id", contactController.deleteMessage);
 
 module.exports = router;

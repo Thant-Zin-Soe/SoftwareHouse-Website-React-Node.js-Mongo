@@ -1,3 +1,4 @@
+// ✅ admin-panel/src/pages/ContactMessages.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -15,6 +16,19 @@ const ContactMessages = () => {
     };
     fetchMessages();
   }, []);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure to delete this Message?");
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`http://localhost:5001/api/contacts/${id}`);
+      setMessages((prev) => prev.filter((msg) => msg._id !== id));
+    } catch (err) {
+      alert("❌ Failed to delete message.");
+      console.error(err);
+    }
+  };
 
   return (
     <div style={{ padding: "30px" }}>
@@ -69,6 +83,10 @@ const ContactMessages = () => {
               </div>
             </div>
           )}
+
+          <button onClick={() => handleDelete(msg._id)} style={styles.deleteBtn}>
+            🗑️ Delete
+          </button>
         </div>
       ))}
     </div>
@@ -82,6 +100,7 @@ const styles = {
     marginBottom: "20px",
     borderRadius: "10px",
     boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+    position: "relative"
   },
   emailLink: {
     color: "#007BFF",
@@ -114,6 +133,17 @@ const styles = {
     color: "white",
     textDecoration: "none",
     textAlign: "center"
+  },
+  deleteBtn: {
+    position: "absolute",
+    top: "20px",
+    right: "20px",
+    backgroundColor: "#dc3545",
+    color: "white",
+    padding: "8px 12px",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer"
   }
 };
 
