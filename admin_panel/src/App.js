@@ -7,6 +7,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ManageBlogs from "./pages/ManageBlogs";
 import ManageComments from "./pages/ManageComments";
 import ManageContent from "./pages/ManageContent";
+import ContactMessages from "./pages/ContactMessages"; // ✅ NEW page import
 import AdminLayout from "./components/AdminLayout";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/manage-blogs" element={<AdminLayout><ManageBlogs /></AdminLayout>} />
         <Route path="/manage-comments" element={<AdminLayout><ManageComments /></AdminLayout>} />
         <Route path="/manage-content" element={<AdminLayout><ManageContent /></AdminLayout>} />
+        <Route path="/contact-messages" element={<AdminLayout><ContactMessages /></AdminLayout>} /> {/* ✅ NEW route */}
       </Routes>
     </div>
   );

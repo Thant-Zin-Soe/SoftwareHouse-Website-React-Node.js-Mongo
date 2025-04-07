@@ -43,18 +43,113 @@ const ContactUs = () => {
   };
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h2>📬 Contact Us</h2>
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px", maxWidth: "600px" }}>
-        <input type="text" name="name" placeholder="Name or Company Name" required onChange={handleChange} />
-        <input type="email" name="email" placeholder="Email" required onChange={handleChange} />
-        <textarea name="message" placeholder="Describe your requirements..." onChange={handleChange}></textarea>
-        <label>Upload Word File: <input type="file" name="wordFile" accept=".doc,.docx" onChange={handleFileChange} /></label>
-        <label>Upload Images (optional): <input type="file" name="images" multiple accept="image/*" onChange={handleFileChange} /></label>
-        <button type="submit">Submit</button>
-      </form>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>📬 Contact Us</h2>
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name or Company"
+            required
+            onChange={handleChange}
+            style={styles.input}
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            required
+            onChange={handleChange}
+            style={styles.input}
+          />
+          <textarea
+            name="message"
+            placeholder="Describe your requirements..."
+            required
+            onChange={handleChange}
+            style={styles.textarea}
+          ></textarea>
+
+          <div style={styles.fileBox}>
+            <label style={styles.label}>📄 Upload Word File (optional):</label>
+            <input type="file" name="wordFile" accept=".doc,.docx" onChange={handleFileChange} />
+          </div>
+
+          <div style={styles.fileBox}>
+            <label style={styles.label}>🖼️ Upload Images (optional):</label>
+            <input type="file" name="images" multiple accept="image/*" onChange={handleFileChange} />
+          </div>
+
+          <button type="submit" style={styles.button}>Send Message</button>
+        </form>
+      </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    backgroundColor: "#f5f7fa",
+    minHeight: "100vh",
+    padding: "40px 20px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
+  card: {
+    backgroundColor: "#fff",
+    padding: "30px",
+    borderRadius: "16px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    maxWidth: "600px",
+    width: "100%",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: "20px",
+    fontSize: "24px",
+    color: "#333",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+  },
+  input: {
+    padding: "12px",
+    fontSize: "16px",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+  },
+  textarea: {
+    padding: "12px",
+    fontSize: "16px",
+    minHeight: "120px",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    resize: "vertical",
+  },
+  label: {
+    marginBottom: "6px",
+    fontSize: "14px",
+    fontWeight: "500",
+    color: "#555",
+  },
+  fileBox: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  button: {
+    backgroundColor: "#007BFF",
+    color: "#fff",
+    padding: "12px",
+    fontSize: "16px",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "0.3s",
+  },
 };
 
 export default ContactUs;

@@ -1,7 +1,8 @@
+// ✅ admin-panel/src/components/AdminNavbar.js
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./AdminNavbar.css";
-import { FaTachometerAlt, FaBlog, FaComments, FaCogs, FaSignOutAlt } from "react-icons/fa";
+import { FaTachometerAlt, FaBlog, FaComments, FaCogs, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 
 const AdminNavbar = () => {
   const navigate = useNavigate();
@@ -37,6 +38,12 @@ const AdminNavbar = () => {
           <NavLink to="/manage-content" activeclassname="active">
             <FaCogs style={{ marginRight: "6px" }} />
             Manage Content
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/contact-messages" activeclassname="active">
+            <FaEnvelope style={{ marginRight: "6px" }} />
+            Contact Messages
           </NavLink>
         </li>
         <li>

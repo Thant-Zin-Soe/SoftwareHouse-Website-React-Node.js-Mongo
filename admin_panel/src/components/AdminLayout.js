@@ -1,14 +1,13 @@
+// ✅ admin-panel/src/components/AdminLayout.js
 import React from "react";
 import AdminNavbar from "./AdminNavbar";
 
 const AdminLayout = ({ children }) => {
   return (
-    <>
+    <div className="admin-layout">
       <AdminNavbar />
-      <div style={{ paddingTop: "60px" }}>
-        {children}
-      </div>
-    </>
+      <main style={{ padding: "20px" }}>{children}</main>
+    </div>
   );
 };
 
