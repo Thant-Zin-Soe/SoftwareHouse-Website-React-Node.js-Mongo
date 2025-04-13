@@ -59,3 +59,20 @@ exports.deleteMessage = async (req, res) => {
     res.status(500).json({ message: "Server error while deleting message." });
   }
 };
+
+
+// /**
+//  * ✅ Delete a contact message by ID
+//  */
+// exports.deleteMessage = async (req, res) => {
+//   try {
+//     const deleted = await ContactMessage.findByIdAndDelete(req.params.id);
+//     if (!deleted) {
+//       return res.status(404).json({ message: "Message not found." });
+//     }
+//     res.status(200).json({ message: "✅ Contact message deleted." });
+//   } catch (error) {
+//     console.error("❌ Error deleting message:", error);
+//     res.status(500).json({ message: "Server error while deleting message." });
+//   }
+// };

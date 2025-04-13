@@ -1,4 +1,5 @@
 const ContactMessage = require("../models/ContactMessage");
+const Comment = require("../models/commentModel");
 
 /**
  * ✅ Create new contact message with optional Word file and images
@@ -44,17 +45,55 @@ exports.getAllMessages = async (req, res) => {
 };
 
 /**
- * ✅ Delete a contact message by ID
+ * ✅ Fetch Comments for a Specific Service or Event
  */
-exports.deleteMessage = async (req, res) => {
+exports.getComments = async (req, res) => {
+  const { serviceId, eventId } = req.params;
+
   try {
-    const deleted = await ContactMessage.findByIdAndDelete(req.params.id);
-    if (!deleted) {
-      return res.status(404).json({ message: "Message not found." });
-    }
-    res.status(200).json({ message: "✅ Contact message deleted." });
+    const filter = serviceId ? { serviceId } : { eventId };
+    const comments = await Comment.find(filter).sort({ createdAt: -1 });
+    res.json(comments);
   } catch (error) {
-    console.error("❌ Error deleting message:", error);
-    res.status(500).json({ message: "Server error while deleting message." });
+    console.error("❌ Error fetching comments:", error);
+    res.status(500).json({ message: "Server error while fetching comments." });
+  }
+};
+
+/**
+ * ✅ Add a new comment for Service or Event
+ */
+exports.addComment = async (req, res) => {
+  const { userName, rating, comment, serviceId, eventId } = req.body;
+
+  if (!userName || !comment || (!serviceId && !eventId)) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  try {
+    const newComment = new Comment({
+      userName,
+      rating,
+      comment,
+      serviceId: serviceId || null,
+      eventId: eventId || null,
+    });
+
+    await newComment.save();
+
+    if (serviceId) {
+      const Service = require("../models/serviceModel");
+      await Service.findByIdAndUpdate(serviceId, { $push: { comments: newComment._id } });
+    }
+
+    if (eventId) {
+      const Event = require("../models/Event");
+      await Event.findByIdAndUpdate(eventId, { $push: { comments: newComment._id } });
+    }
+
+    res.status(201).json({ message: "✅ Comment added successfully!", comment: newComment });
+  } catch (error) {
+    console.error("❌ Error adding comment:", error);
+    res.status(500).json({ message: "Server error while adding comment." });
   }
 };
