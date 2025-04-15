@@ -3,7 +3,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./AdminNavbar.css";
 import { FaTachometerAlt, FaBlog, FaComments, FaCogs, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
-
+import logo from "./Logo.png"; 
 const AdminNavbar = () => {
   const navigate = useNavigate();
 

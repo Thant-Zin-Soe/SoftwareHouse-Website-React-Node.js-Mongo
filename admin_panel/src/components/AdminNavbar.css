@@ -69,3 +69,21 @@
   color: #fff;
   border-color: #fff;
 }
+
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff; /* Adjust based on your navbar background */
+}

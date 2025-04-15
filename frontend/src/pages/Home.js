@@ -8,7 +8,7 @@ const Home = () => {
       <section className="hero">
         <h1>Welcome to AI Solutions</h1>
         <p>Empowering businesses with AI automation and smart technology.</p>
-        <button className="cta">Get Started</button>
+    {/* <button className="cta">Get Started</button>*/}
       </section>
 
       {/* Services Section */}
@@ -27,8 +27,8 @@ const Home = () => {
           </div>
           <div className="service-card">
             <span role="img" aria-label="Chatbot">💬</span>
-            <h3>Chatbots & NLP</h3>
-            <p>Enhance customer support with AI chatbots.</p>
+            <h3>Messaging Applications</h3>
+            <p>Promoting the communication and reelation witht your Customers.</p>
           </div>
         </div>
       </section>
